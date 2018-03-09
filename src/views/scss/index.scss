@@ -1,0 +1,35 @@
+.whole {
+  display: flex;
+  flex-direction: column;
+}
+.body {
+  display: flex;
+  flex-direction: row;
+  height: 75vh;
+  justify-content: center;
+  align-items: center;
+}
+.box {
+  display: flex;
+  flex-direction: row;
+  width: 550px;
+  height: 300px;
+}
+.logo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 250px;
+}
+.login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 260px;
+}
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
