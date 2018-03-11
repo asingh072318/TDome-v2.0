@@ -1,0 +1,41 @@
+.whole {
+  display: flex;
+  flex-direction: column;
+  height:100vh;
+  background-image: url("./final.jpg");
+  background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.body {
+  display: flex;
+  height: 93vh;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.outer {
+  height: 300px;
+  width: 550px;
+  display: flex;
+  flex-direction: row;
+  background-color: #A2A2A2;
+  font-style: Arial, Helvetica, sans-serif;
+}
+
+.leftOuter {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 250px;
+}
+
+.rightOuter {
+  width: 260px;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+}
