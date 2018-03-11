@@ -16,6 +16,11 @@ const style = {
   width: 550
 };
 
+const customContentStyle = {
+  width: '35%',
+  maxWidth: 'none',
+};
+
 const newStyle = {
   margin: 12
 };
@@ -25,7 +30,7 @@ const styles = {
     color: "#FFFFFF"
   },
   underlineStyle: {
-    borderColor: "#E4447C"
+    borderColor: "#FF4282"
   },
   floatingLabelStyle: {
     color: orange500
@@ -61,10 +66,10 @@ class Index extends Component {
   };
   render() {
     const actions = [
-      <FlatButton label="Cancel" primary={true} onClick={this.handleClose} />,
+      <FlatButton label="Cancel" secondary={true} onClick={this.handleClose} />,
       <FlatButton
         label="Submit"
-        primary={true}
+        secondary={true}
         disabled={true}
         onClick={this.handleClose}
       />
@@ -104,26 +109,57 @@ class Index extends Component {
                     onClick={() => this.handleOpen()}
                   />
                   <Dialog
-                    title="Hola motherfucker!"
+                    title="Register"
                     actions={actions}
                     modal={true}
+                    contentStyle={customContentStyle}
                     open={this.state.open}
+                    autoScrollBodyContent={true}
+                    titleClassName='title'
+                    bodyClassName='dialog'
                   >
                     <div>
                       <TextField
+                        hintText="BIT Roll Number"
+                        hintStyle={styles.errorStyle}
+                        errorText="BE/xxxxx/20xx"
+                        underlineStyle={styles.underlineStyle}
+                      />
+                    <br />
+                      <TextField
                         hintText="email ID"
-                        errorText="This field is required"
+                        hintStyle={styles.errorStyle}
+                        //errorText="This field is required"
+                        underlineStyle={styles.underlineStyle}
                         onChange={event => this.emailValue(event)}
                       />
                       <br />
                       <TextField
                         hintText="Phone Number"
-                        errorText="This field is required"
+                        hintStyle={styles.errorStyle}
+                        underlineStyle={styles.underlineStyle}
+                        //errorText="This field is required"
+                      />
+                    <br />
+                      <TextField
+                        hintText="Password"
+                        hintStyle={styles.errorStyle}
+                        underlineStyle={styles.underlineStyle}
+                        //errorText="This field is required"
                       />
                       <br />
+                        <TextField
+                          hintText="Confirm Password"
+                          hintStyle={styles.errorStyle}
+                          underlineStyle={styles.underlineStyle}
+                          //errorText="This field is required"
+                        />
+                        <br />
                       <TextField
                         hintText="Choose Username"
-                        errorText="This field is required"
+                        hintStyle={styles.errorStyle}
+                        underlineStyle={styles.underlineStyle}
+                        //errorText="This field is required"
                       />
                       <br />
                     </div>

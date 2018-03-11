@@ -16,12 +16,20 @@
   align-items: center;
 }
 
+.title {
+  background-color: #FF4282;
+}
+
+.dialog {
+  background-color: #282D33;
+}
+
 .outer {
   height: 300px;
   width: 550px;
   display: flex;
   flex-direction: row;
-  background-color: #a2a2a2;
+  background-color: #282D33;
   font-style: Arial, Helvetica, sans-serif;
 }
 
