@@ -178,6 +178,13 @@ class Index extends Component {
                   >
                     <div>
                       <TextField
+                        hintText="Full Name"
+                        hintStyle={styles.errorStyle}
+                        underlineStyle={styles.underlineStyle}
+                        inputStyle={textColor}
+                      />
+                      <br />
+                      <TextField
                         hintText="BIT Roll Number"
                         hintStyle={styles.errorStyle}
                         errorText="BE/xxxxx/20xx"
@@ -186,7 +193,7 @@ class Index extends Component {
                       />
                       <br />
                       <TextField
-                        hintText="email ID"
+                        hintText="Email ID"
                         hintStyle={styles.errorStyle}
                         //errorText="This field is required"
                         underlineStyle={styles.underlineStyle}
