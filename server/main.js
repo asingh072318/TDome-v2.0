@@ -10,31 +10,35 @@ const app = express();
 const bodyParser = require("body-parser");
 app.use(compress());
 app.use(bodyParser.json());
-const users=[
+const users = [
   {
-    _id:crypto.createHash('md5').update(Math.random().toString()).digest('hex').substring(0, 24),
-    username:'g4mewarrior',
-    password:'Singh123@',
-    email:'ankit.bitmsra@gmail.com',
-    phone:7050514771,
-    rollno:"BE/10026/2014",
+    _id: crypto
+      .createHash("md5")
+      .update(Math.random().toString())
+      .digest("hex")
+      .substring(0, 24),
+    username: "g4mewarrior",
+    password: "Singh123@",
+    email: "ankit.bitmsra@gmail.com",
+    phone: 7050514771,
+    rollno: "BE/10026/2014"
   }
-]
+];
 app.post("/api/login", (req, res) => {
   const newUser = req.body;
   console.log(req.body);
-  var success=false;
-  users.map((user)=>{
-    if(user.username===newUser.username && user.password=newUser.password){
+  var success = false;
+  users.map(user => {
+    if (
+      user.username === newUser.username &&
+      user.password === newUser.password
+    ) {
       success = true;
-      break;
     }
-    console.log('not break : ',user);
-  })
-  if(success)
-    res.json({message:'Successful Login'});
+  });
+  if (success) res.json({ message: "Successful Login" });
   else {
-    res.json({message:'Login Failed'});
+    res.json({ message: "Login Failed" });
   }
 });
 // ------------------------------------

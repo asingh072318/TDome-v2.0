@@ -93,7 +93,7 @@ class Index extends Component {
     })
       .then(response => response.json())
       .then(message => {
-        console.log("Response is : ", message);
+        console.log("Response is : ", message.message);
       })
       .catch(err => {
         alert("Error sending data to server : " + err.message);
