@@ -36,9 +36,10 @@ app.post("/api/login", (req, res) => {
       success = true;
     }
   });
-  if (success) res.json({ message: "Successful Login" });
+  if (success)
+    res.json({ username: newUser.username, message: "Successful Login" });
   else {
-    res.json({ message: "Login Failed" });
+    res.json({ username: newUser.username, message: "Login Failed" });
   }
 });
 // ------------------------------------
