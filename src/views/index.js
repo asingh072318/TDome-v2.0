@@ -25,6 +25,10 @@ const newStyle = {
   margin: 12
 };
 
+const textColor = {
+  color: "#FFFFFF"
+};
+
 const styles = {
   errorStyle: {
     color: "#FFFFFF"
@@ -46,7 +50,14 @@ class Index extends Component {
     this.state = {
       value: "",
       open: false,
-      email: ""
+      usernameSignin:"",
+      passwordSignin:"",
+      rollno:"",
+      phone:0,
+      usernameRegister:"",
+      passwordRegister:"",
+      cpasswordRegister:"",
+      emailRegister:"",
     };
   }
 
@@ -64,6 +75,9 @@ class Index extends Component {
   emailValue = e => {
     this.setState({ email: e.target.value });
   };
+  states = (e,value) => {
+      
+  }
   render() {
     const actions = [
       <RaisedButton label="Cancel" secondary={true} onClick={this.handleClose} />,
@@ -90,13 +104,17 @@ class Index extends Component {
                   hintText="User ID"
                   hintStyle={styles.errorStyle}
                   underlineStyle={styles.underlineStyle}
+                  inputStyle={textColor}
+                  onChange={(event)=>this.states(event,"usernameSignin")}
                 />
                 <TextField
                   hintText="Password"
                   hintStyle={styles.errorStyle}
                   underlineStyle={styles.underlineStyle}
+                  inputStyle={textColor}
+                  type='password'
                 />
-                <div>
+              <div>
                   <RaisedButton
                     label="Login"
                     secondary={true}
@@ -124,6 +142,7 @@ class Index extends Component {
                         hintText="BIT Roll Number"
                         hintStyle={styles.errorStyle}
                         errorText="BE/xxxxx/20xx"
+                        inputStyle={textColor}
                         underlineStyle={styles.underlineStyle}
                       />
                     <br />
@@ -132,20 +151,24 @@ class Index extends Component {
                         hintStyle={styles.errorStyle}
                         //errorText="This field is required"
                         underlineStyle={styles.underlineStyle}
+                        inputStyle={textColor}
                         onChange={event => this.emailValue(event)}
                       />
                       <br />
-                      <TextField
-                        hintText="Phone Number"
-                        hintStyle={styles.errorStyle}
-                        underlineStyle={styles.underlineStyle}
-                        //errorText="This field is required"
-                      />
+                        <TextField
+                          hintText="Choose Username"
+                          hintStyle={styles.errorStyle}
+                          underlineStyle={styles.underlineStyle}
+                          inputStyle={textColor}
+                          //errorText="This field is required"
+                        />
                     <br />
                       <TextField
                         hintText="Password"
                         hintStyle={styles.errorStyle}
                         underlineStyle={styles.underlineStyle}
+                        inputStyle={textColor}
+                        type='password'
                         //errorText="This field is required"
                       />
                       <br />
@@ -153,15 +176,19 @@ class Index extends Component {
                           hintText="Confirm Password"
                           hintStyle={styles.errorStyle}
                           underlineStyle={styles.underlineStyle}
+                          inputStyle={textColor}
+                          type='password'
+                          onChange = {(event)=>this.validatePassword(event)}
                           //errorText="This field is required"
                         />
                         <br />
-                      <TextField
-                        hintText="Choose Username"
-                        hintStyle={styles.errorStyle}
-                        underlineStyle={styles.underlineStyle}
-                        //errorText="This field is required"
-                      />
+                          <TextField
+                            hintText="Phone Number"
+                            hintStyle={styles.errorStyle}
+                            underlineStyle={styles.underlineStyle}
+                            inputStyle={textColor}
+                            //errorText="This field is required"
+                          />
                       <br />
                     </div>
                   </Dialog>
