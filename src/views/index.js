@@ -66,8 +66,8 @@ class Index extends Component {
   };
   render() {
     const actions = [
-      <FlatButton label="Cancel" secondary={true} onClick={this.handleClose} />,
-      <FlatButton
+      <RaisedButton label="Cancel" secondary={true} onClick={this.handleClose} />,
+      <RaisedButton
         label="Submit"
         secondary={true}
         disabled={true}
@@ -117,6 +117,7 @@ class Index extends Component {
                     autoScrollBodyContent={true}
                     titleClassName='title'
                     bodyClassName='dialog'
+                    contentClassName='dialog'
                   >
                     <div>
                       <TextField
