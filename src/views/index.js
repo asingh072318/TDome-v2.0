@@ -17,8 +17,8 @@ const style = {
 };
 
 const customContentStyle = {
-  width: '35%',
-  maxWidth: 'none',
+  width: "35%",
+  maxWidth: "none"
 };
 
 const newStyle = {
@@ -50,14 +50,14 @@ class Index extends Component {
     this.state = {
       value: "",
       open: false,
-      usernameSignin:"",
-      passwordSignin:"",
-      rollno:"",
-      phone:0,
-      usernameRegister:"",
-      passwordRegister:"",
-      cpasswordRegister:"",
-      emailRegister:"",
+      usernameSignin: "",
+      passwordSignin: "",
+      rollno: "",
+      phone: 0,
+      usernameRegister: "",
+      passwordRegister: "",
+      cpasswordRegister: "",
+      emailRegister: ""
     };
   }
 
@@ -75,12 +75,37 @@ class Index extends Component {
   emailValue = e => {
     this.setState({ email: e.target.value });
   };
-  states = (e,value) => {
-      
-  }
+  states = (e, value) => {
+    if (value === "usernameSignin") {
+      this.setState({ usernameSignin: e.target.value });
+    } else if (value === "passwordSignin") {
+      this.setState({ passwordSignin: e.target.value });
+    }
+  };
+  login = () => {
+    let obj = {};
+    obj.username = this.state.usernameSignin;
+    obj.password = this.state.passwordSignin;
+    fetch("/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(obj)
+    })
+      .then(response => response.json())
+      .then(message => {
+        console.log("Response is : ", message);
+      })
+      .catch(err => {
+        alert("Error sending data to server : " + err.message);
+      });
+  };
   render() {
     const actions = [
-      <RaisedButton label="Cancel" secondary={true} onClick={this.handleClose} />,
+      <RaisedButton
+        label="Cancel"
+        secondary={true}
+        onClick={this.handleClose}
+      />,
       <RaisedButton
         label="Submit"
         secondary={true}
@@ -105,20 +130,22 @@ class Index extends Component {
                   hintStyle={styles.errorStyle}
                   underlineStyle={styles.underlineStyle}
                   inputStyle={textColor}
-                  onChange={(event)=>this.states(event,"usernameSignin")}
+                  onChange={event => this.states(event, "usernameSignin")}
                 />
                 <TextField
                   hintText="Password"
                   hintStyle={styles.errorStyle}
                   underlineStyle={styles.underlineStyle}
                   inputStyle={textColor}
-                  type='password'
+                  type="password"
+                  onChange={event => this.states(event, "passwordSignin")}
                 />
-              <div>
+                <div>
                   <RaisedButton
                     label="Login"
                     secondary={true}
                     style={newStyle}
+                    onClick={() => this.login()}
                   />
                   <RaisedButton
                     label="Sign Up"
@@ -133,9 +160,9 @@ class Index extends Component {
                     contentStyle={customContentStyle}
                     open={this.state.open}
                     autoScrollBodyContent={true}
-                    titleClassName='title'
-                    bodyClassName='dialog'
-                    contentClassName='dialog'
+                    titleClassName="title"
+                    bodyClassName="dialog"
+                    contentClassName="dialog"
                   >
                     <div>
                       <TextField
@@ -145,7 +172,7 @@ class Index extends Component {
                         inputStyle={textColor}
                         underlineStyle={styles.underlineStyle}
                       />
-                    <br />
+                      <br />
                       <TextField
                         hintText="email ID"
                         hintStyle={styles.errorStyle}
@@ -155,40 +182,40 @@ class Index extends Component {
                         onChange={event => this.emailValue(event)}
                       />
                       <br />
-                        <TextField
-                          hintText="Choose Username"
-                          hintStyle={styles.errorStyle}
-                          underlineStyle={styles.underlineStyle}
-                          inputStyle={textColor}
-                          //errorText="This field is required"
-                        />
-                    <br />
+                      <TextField
+                        hintText="Choose Username"
+                        hintStyle={styles.errorStyle}
+                        underlineStyle={styles.underlineStyle}
+                        inputStyle={textColor}
+                        //errorText="This field is required"
+                      />
+                      <br />
                       <TextField
                         hintText="Password"
                         hintStyle={styles.errorStyle}
                         underlineStyle={styles.underlineStyle}
                         inputStyle={textColor}
-                        type='password'
+                        type="password"
                         //errorText="This field is required"
                       />
                       <br />
-                        <TextField
-                          hintText="Confirm Password"
-                          hintStyle={styles.errorStyle}
-                          underlineStyle={styles.underlineStyle}
-                          inputStyle={textColor}
-                          type='password'
-                          onChange = {(event)=>this.validatePassword(event)}
-                          //errorText="This field is required"
-                        />
-                        <br />
-                          <TextField
-                            hintText="Phone Number"
-                            hintStyle={styles.errorStyle}
-                            underlineStyle={styles.underlineStyle}
-                            inputStyle={textColor}
-                            //errorText="This field is required"
-                          />
+                      <TextField
+                        hintText="Confirm Password"
+                        hintStyle={styles.errorStyle}
+                        underlineStyle={styles.underlineStyle}
+                        inputStyle={textColor}
+                        type="password"
+                        onChange={event => this.validatePassword(event)}
+                        //errorText="This field is required"
+                      />
+                      <br />
+                      <TextField
+                        hintText="Phone Number"
+                        hintStyle={styles.errorStyle}
+                        underlineStyle={styles.underlineStyle}
+                        inputStyle={textColor}
+                        //errorText="This field is required"
+                      />
                       <br />
                     </div>
                   </Dialog>
