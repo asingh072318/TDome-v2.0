@@ -81,6 +81,24 @@ class Index extends Component {
     } else if (value === "passwordSignin") {
       this.setState({ passwordSignin: e.target.value });
     }
+    else if(value === "rollno") {
+      this.setState({ rollno: e.target.value});
+    }
+    else if(value === phone) {
+      this.setState({ phone: e.target.value});
+    }
+    else if(value === "usernameRegister") {
+      this.setState({ usernameRegister: e.target.value});
+    }
+    else if(value === "passwordRegister") {
+      this.setState({ passwordRegister: e.target.value});
+    }
+    else if(value === "cpasswordRegister") {
+      this.setState({ cpasswordRegister: e.target.value});
+    }
+    else if(value === "emailRegister") {
+      this.setState({ emailRegister: e.target.value});
+    }
   };
   login = () => {
     let obj = {};
