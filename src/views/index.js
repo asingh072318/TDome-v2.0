@@ -10,6 +10,7 @@ import RaisedButton from "material-ui/RaisedButton";
 import Dialog from "material-ui/Dialog";
 import FlatButton from "material-ui/FlatButton";
 import { orange500, blue500 } from "material-ui/styles/colors";
+import { browserHistory } from "react-router";
 // Binding the state and actions. These will be available as props to component
 const style = {
   height: 300,
@@ -82,7 +83,7 @@ class Index extends Component {
       this.setState({ passwordSignin: e.target.value });
     } else if (value === "rollno") {
       this.setState({ rollno: e.target.value });
-    } else if (value === phone) {
+    } else if (value === "phone") {
       this.setState({ phone: e.target.value });
     } else if (value === "usernameRegister") {
       this.setState({ usernameRegister: e.target.value });
@@ -106,6 +107,30 @@ class Index extends Component {
       .then(response => response.json())
       .then(message => {
         console.log(message.username, message.message);
+        browserHistory.push("/profile");
+      })
+      .catch(err => {
+        alert("Error sending data to server : " + err.message);
+      });
+  };
+  register = () => {
+    let obj = {
+      username: this.state.usernameRegister,
+      password: this.state.passwordRegister,
+      cpassword: this.state.cpasswordRegister,
+      rollno: this.state.rollno,
+      email: this.state.emailRegister,
+      phone: this.state.phone
+    };
+    console.log(obj);
+    fetch("/api/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(obj)
+    })
+      .then(response => response.json())
+      .then(message => {
+        console.log("register response ", message);
       })
       .catch(err => {
         alert("Error sending data to server : " + err.message);
@@ -116,13 +141,12 @@ class Index extends Component {
       <RaisedButton
         label="Cancel"
         secondary={true}
-        onClick={this.handleClose}
+        onClick={() => this.handleClose()}
       />,
       <RaisedButton
         label="Submit"
         secondary={true}
-        disabled={true}
-        onClick={this.handleClose}
+        onClick={() => this.register()}
       />
     ];
     return (
@@ -183,23 +207,29 @@ class Index extends Component {
                         errorText="BE/xxxxx/20xx"
                         inputStyle={textColor}
                         underlineStyle={styles.underlineStyle}
+                        onChange={event => this.states(event, "rollno")}
+                        fullWidth={true}
                       />
                       <br />
                       <TextField
-                        hintText="email ID"
+                        hintText="Email ID"
                         hintStyle={styles.errorStyle}
                         //errorText="This field is required"
                         underlineStyle={styles.underlineStyle}
                         inputStyle={textColor}
-                        onChange={event => this.emailValue(event)}
+                        fullWidth={true}
+                        onChange={event => this.states(event, "emailRegister")}
                       />
                       <br />
                       <TextField
-                        hintText="Choose Username"
+                        hintText="Username"
                         hintStyle={styles.errorStyle}
                         underlineStyle={styles.underlineStyle}
                         inputStyle={textColor}
+                        fullWidth={true}
                         //errorText="This field is required"
+                        onChange={event =>
+                          this.states(event, "usernameRegister")}
                       />
                       <br />
                       <TextField
@@ -208,7 +238,10 @@ class Index extends Component {
                         underlineStyle={styles.underlineStyle}
                         inputStyle={textColor}
                         type="password"
+                        fullWidth={true}
                         //errorText="This field is required"
+                        onChange={event =>
+                          this.states(event, "passwordRegister")}
                       />
                       <br />
                       <TextField
@@ -217,7 +250,9 @@ class Index extends Component {
                         underlineStyle={styles.underlineStyle}
                         inputStyle={textColor}
                         type="password"
-                        onChange={event => this.validatePassword(event)}
+                        fullWidth={true}
+                        onChange={event =>
+                          this.states(event, "cpasswordRegister")}
                         //errorText="This field is required"
                       />
                       <br />
@@ -226,7 +261,9 @@ class Index extends Component {
                         hintStyle={styles.errorStyle}
                         underlineStyle={styles.underlineStyle}
                         inputStyle={textColor}
+                        fullWidth={true}
                         //errorText="This field is required"
+                        onChange={event => this.states(event, "phone")}
                       />
                       <br />
                     </div>
