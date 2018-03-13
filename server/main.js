@@ -14,7 +14,8 @@ const users = [
   {
     _id: 1,
     username: "g4mewarrior",
-    password: "Singh123@",
+    salt: "",
+    hash: "",
     email: "ankit.bitmsra@gmail.com",
     phone: 7050514771,
     rollno: "BE/10026/2014",
@@ -73,9 +74,17 @@ app.post("/api/login", (req, res) => {
 
 app.post("/api/register", (req, res) => {
   const newUser = req.body;
+  const obj = {
+    _id: "",
+    username: "",
+    salt: "",
+    hash: "",
+    email: "",
+    phone: 0,
+    rollno: "",
+    type: "user"
+  };
   let alreadyRegistered = false;
-  newUser._id = _id();
-  newUser.type = "user";
   users.map(user => {
     if (user.rollno === newUser.rollno || user.username === newUser.username)
       alreadyRegistered = true;
@@ -83,7 +92,17 @@ app.post("/api/register", (req, res) => {
   if (alreadyRegistered) {
     res.json({ username: newUser.username, message: "Already Registered" });
   } else {
-    users.push(newUser);
+    var password = newUser.password;
+    var salthash = saltHashPassword(password);
+    obj._id = _id();
+    obj.username = newUser.username;
+    obj.salt = salthash.salt;
+    obj.hash = salthash.hash;
+    obj.email = newUser.email;
+    obj.phone = newUser.phone;
+    obj.rollno = newUser.rollno;
+    users.push(obj);
+    console.log(users);
     res.json({
       username: newUser.username,
       message: "Successfully Registered"
