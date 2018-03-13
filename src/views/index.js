@@ -16,6 +16,10 @@ const style = {
   width: 550
 };
 
+const btnStyle = {
+  color: "#7f8c8d"
+};
+
 const customContentStyle = {
   width: "35%",
   maxWidth: "none"
@@ -34,7 +38,7 @@ const styles = {
     color: "#FFFFFF"
   },
   underlineStyle: {
-    borderColor: "#FF4282"
+    borderColor: "#7f8c8d;"
   },
   floatingLabelStyle: {
     color: orange500
@@ -115,12 +119,12 @@ class Index extends Component {
     const actions = [
       <RaisedButton
         label="Cancel"
-        secondary={true}
+        primary={true}
         onClick={this.handleClose}
       />,
       <RaisedButton
         label="Submit"
-        secondary={true}
+        primary={true}
         disabled={true}
         onClick={this.handleClose}
       />
@@ -130,7 +134,7 @@ class Index extends Component {
         <AppBar
           title="TDome v2.0"
           iconClassNameRight="muidocs-icon-navigation-expand-more"
-          style={{ backgroundColor: "#FF4282" }}
+          style={{ backgroundColor: "#7f8c8d" }}
         />
         <div className="body">
           <Paper style={style} zDepth={4}>
@@ -155,13 +159,13 @@ class Index extends Component {
                 <div>
                   <RaisedButton
                     label="Login"
-                    secondary={true}
+                    primary={true}
                     style={newStyle}
                     onClick={() => this.login()}
                   />
                   <RaisedButton
                     label="Sign Up"
-                    secondary={true}
+                    primary={true}
                     style={newStyle}
                     onClick={() => this.handleOpen()}
                   />
