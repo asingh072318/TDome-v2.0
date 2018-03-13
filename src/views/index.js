@@ -11,14 +11,11 @@ import Dialog from "material-ui/Dialog";
 import FlatButton from "material-ui/FlatButton";
 import { orange500, blue500 } from "material-ui/styles/colors";
 import { browserHistory } from "react-router";
+
 // Binding the state and actions. These will be available as props to component
 const style = {
   height: 300,
   width: 550
-};
-
-const btnStyle = {
-  color: "#7f8c8d"
 };
 
 const customContentStyle = {
@@ -36,7 +33,7 @@ const textColor = {
 
 const styles = {
   errorStyle: {
-    color: "#FFFFFF"
+    color: "#000000"
   },
   underlineStyle: {
     borderColor: "#7f8c8d;"
@@ -144,21 +141,26 @@ class Index extends Component {
     const actions = [
       <RaisedButton
         label="Submit"
-        primary={true}
+        labelColor="#FFFFFF"
+        //primary={true}
+        backgroundColor="#EA2027"
+        style={newStyle}
         onClick={() => this.register()}
       />,
       <RaisedButton
         label="Cancel"
-        primary={true}
+        labelColor="#FFFFFF"
+        //primary={true}
+        backgroundColor="#EA2027"
         onClick={() => this.handleClose()}
       />
-    ];
+  ];
     return (
       <div className="whole">
         <AppBar
           title="TDome v2.0"
           iconClassNameRight="muidocs-icon-navigation-expand-more"
-          style={{ backgroundColor: "#7f8c8d" }}
+          style={{ backgroundColor: "#EA2027" }}
         />
         <div className="body">
           <Paper style={style} zDepth={4}>
@@ -183,14 +185,18 @@ class Index extends Component {
                 <div>
                   <RaisedButton
                     label="Login"
-                    primary={true}
+                    labelColor="#FFFFFF"
+                    //primary={true}
                     style={newStyle}
+                    backgroundColor="#EA2027"
                     onClick={() => this.login()}
                   />
                   <RaisedButton
                     label="Sign Up"
-                    primary={true}
+                    labelColor="#FFFFFF"
+                    //primary={true}
                     style={newStyle}
+                    backgroundColor="#EA2027"
                     onClick={() => this.handleOpen()}
                   />
                   <Dialog
