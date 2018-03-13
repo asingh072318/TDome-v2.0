@@ -12,18 +12,47 @@ app.use(compress());
 app.use(bodyParser.json());
 const users = [
   {
-    _id: crypto
-      .createHash("md5")
-      .update(Math.random().toString())
-      .digest("hex")
-      .substring(0, 24),
+    _id: 1,
     username: "g4mewarrior",
-    password: "Singh123@",
+    salt: "",
+    hash: "",
     email: "ankit.bitmsra@gmail.com",
     phone: 7050514771,
-    rollno: "BE/10026/2014"
+    rollno: "BE/10026/2014",
+    type: "admin"
   }
 ];
+var genRandomString = function(length) {
+  return crypto
+    .randomBytes(Math.ceil(length / 2))
+    .toString("hex") /** convert to hexadecimal format */
+    .slice(0, length); /** return required number of characters */
+};
+var sha512 = function(password, salt) {
+  var hash = crypto.createHmac("sha512", salt); /** Hashing algorithm sha512 */
+  hash.update(password);
+  var value = hash.digest("hex");
+  return {
+    salt: salt,
+    passwordHash: value
+  };
+};
+var _id = function() {
+  return crypto
+    .createHash("md5")
+    .update(Math.random().toString())
+    .digest("hex")
+    .substring(0, 24);
+};
+function saltHashPassword(userpassword) {
+  var salt = genRandomString(16); /** Gives us salt of length 16 */
+  var passwordData = sha512(userpassword, salt);
+  var obj = {
+    hash: passwordData.passwordHash,
+    salt: passwordData.salt
+  };
+  return obj;
+}
 app.post("/api/login", (req, res) => {
   const newUser = req.body;
   console.log(req.body);
@@ -40,6 +69,44 @@ app.post("/api/login", (req, res) => {
     res.json({ username: newUser.username, message: "Successful Login" });
   else {
     res.json({ username: newUser.username, message: "Login Failed" });
+  }
+});
+
+app.post("/api/register", (req, res) => {
+  const newUser = req.body;
+  const obj = {
+    _id: "",
+    username: "",
+    salt: "",
+    hash: "",
+    email: "",
+    phone: 0,
+    rollno: "",
+    type: "user"
+  };
+  let alreadyRegistered = false;
+  users.map(user => {
+    if (user.rollno === newUser.rollno || user.username === newUser.username)
+      alreadyRegistered = true;
+  });
+  if (alreadyRegistered) {
+    res.json({ username: newUser.username, message: "Already Registered" });
+  } else {
+    var password = newUser.password;
+    var salthash = saltHashPassword(password);
+    obj._id = _id();
+    obj.username = newUser.username;
+    obj.salt = salthash.salt;
+    obj.hash = salthash.hash;
+    obj.email = newUser.email;
+    obj.phone = newUser.phone;
+    obj.rollno = newUser.rollno;
+    users.push(obj);
+    console.log(users);
+    res.json({
+      username: newUser.username,
+      message: "Successfully Registered"
+    });
   }
 });
 // ------------------------------------
