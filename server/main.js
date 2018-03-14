@@ -14,8 +14,9 @@ const users = [
   {
     _id: 1,
     username: "g4mewarrior",
-    salt: "",
-    hash: "",
+    salt: "5fd2de6a79c03be7",
+    hash:
+      "973329c7ed2fbb6dae3de56891a0d88eb77763319b19fc3a0cf0f98990db169e3fe67a09d9b6511cd699a86b6f7b8dde4bc8016c38bc16550e3d9d42fddab4bc",
     email: "ankit.bitmsra@gmail.com",
     phone: 7050514771,
     rollno: "BE/10026/2014",
@@ -53,23 +54,32 @@ function saltHashPassword(userpassword) {
   };
   return obj;
 }
+function verifySaltPassword(userpassword, salt) {
+  var passwordData = sha512(userpassword, salt);
+  return passwordData.passwordHash;
+}
 app.post("/api/login", (req, res) => {
   const newUser = req.body;
-  console.log(req.body);
-  var success = false;
+  var obj = {};
+  var exists = false;
   users.map(user => {
-    if (
-      user.username === newUser.username &&
-      user.password === newUser.password
-    ) {
-      success = true;
+    if (user.username === newUser.username) {
+      exists = true;
+      if (verifySaltPassword(newUser.password, user.salt) === user.hash) {
+        obj.user = newUser;
+        obj.status = 400;
+        obj.message = "Successful Login";
+      } else {
+        obj.message = "Wrong Username and Password Combination";
+        obj.status = 401;
+      }
     }
   });
-  if (success)
-    res.json({ username: newUser.username, message: "Successful Login" });
-  else {
-    res.json({ username: newUser.username, message: "Login Failed" });
+  if (!exists) {
+    obj.status = 404;
+    obj.message = "No User Record Found";
   }
+  res.json(obj);
 });
 
 app.post("/api/register", (req, res) => {
@@ -102,7 +112,7 @@ app.post("/api/register", (req, res) => {
     obj.phone = newUser.phone;
     obj.rollno = newUser.rollno;
     users.push(obj);
-    console.log(users);
+    console.log(obj.salt, obj.hash);
     res.json({
       username: newUser.username,
       message: "Successfully Registered"

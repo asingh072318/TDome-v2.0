@@ -27,16 +27,12 @@ const newStyle = {
   margin: 12
 };
 
-const textColor = {
-  color: "#FFFFFF"
-};
-
 const styles = {
   errorStyle: {
     color: "#000000"
   },
   underlineStyle: {
-    borderColor: "#7f8c8d;"
+    borderColor: "#7f8c8d"
   },
   floatingLabelStyle: {
     color: orange500
@@ -59,7 +55,8 @@ class Index extends Component {
       usernameRegister: "",
       passwordRegister: "",
       cpasswordRegister: "",
-      emailRegister: ""
+      emailRegister: "",
+      loginError: ""
     };
   }
 
@@ -69,13 +66,6 @@ class Index extends Component {
 
   handleClose = () => {
     this.setState({ open: false });
-  };
-
-  cLog = () => {
-    console.log("SignUp button was clicked");
-  };
-  emailValue = e => {
-    this.setState({ email: e.target.value });
   };
   states = (e, value) => {
     if (value === "usernameSignin") {
@@ -107,8 +97,10 @@ class Index extends Component {
     })
       .then(response => response.json())
       .then(message => {
-        console.log(message.username, message.message);
-        browserHistory.push("/profile");
+        if (message.status === 400) {
+          this.setState({ loginError: message.message });
+          browserHistory.push("/home");
+        } else this.setState({ loginError: message.message });
       })
       .catch(err => {
         alert("Error sending data to server : " + err.message);
@@ -154,7 +146,7 @@ class Index extends Component {
         backgroundColor="#EA2027"
         onClick={() => this.handleClose()}
       />
-  ];
+    ];
     return (
       <div className="whole">
         <AppBar
@@ -168,20 +160,21 @@ class Index extends Component {
               <div className="leftOuter">1</div>
               <div className="rightOuter">
                 <TextField
-                  hintText="User ID"
+                  hintText="Username"
                   hintStyle={styles.errorStyle}
                   underlineStyle={styles.underlineStyle}
-                  inputStyle={textColor}
                   onChange={event => this.states(event, "usernameSignin")}
                 />
                 <TextField
                   hintText="Password"
                   hintStyle={styles.errorStyle}
                   underlineStyle={styles.underlineStyle}
-                  inputStyle={textColor}
                   type="password"
                   onChange={event => this.states(event, "passwordSignin")}
                 />
+                <div style={{ color: "red", fontSize: 14 }}>
+                  {this.state.loginError}
+                </div>
                 <div>
                   <RaisedButton
                     label="Login"
@@ -216,7 +209,6 @@ class Index extends Component {
                         hintText="Full Name"
                         hintStyle={styles.errorStyle}
                         underlineStyle={styles.underlineStyle}
-                        inputStyle={textColor}
                         fullWidth={true}
                       />
                       <br />
@@ -224,7 +216,6 @@ class Index extends Component {
                         hintText="BIT Roll Number"
                         hintStyle={styles.errorStyle}
                         errorText="BE/xxxxx/20xx"
-                        inputStyle={textColor}
                         underlineStyle={styles.underlineStyle}
                         onChange={event => this.states(event, "rollno")}
                         fullWidth={true}
@@ -235,7 +226,6 @@ class Index extends Component {
                         hintStyle={styles.errorStyle}
                         //errorText="This field is required"
                         underlineStyle={styles.underlineStyle}
-                        inputStyle={textColor}
                         fullWidth={true}
                         onChange={event => this.states(event, "emailRegister")}
                       />
@@ -244,7 +234,6 @@ class Index extends Component {
                         hintText="Username"
                         hintStyle={styles.errorStyle}
                         underlineStyle={styles.underlineStyle}
-                        inputStyle={textColor}
                         fullWidth={true}
                         //errorText="This field is required"
                         onChange={event =>
@@ -255,7 +244,6 @@ class Index extends Component {
                         hintText="Password"
                         hintStyle={styles.errorStyle}
                         underlineStyle={styles.underlineStyle}
-                        inputStyle={textColor}
                         type="password"
                         fullWidth={true}
                         //errorText="This field is required"
@@ -267,7 +255,6 @@ class Index extends Component {
                         hintText="Confirm Password"
                         hintStyle={styles.errorStyle}
                         underlineStyle={styles.underlineStyle}
-                        inputStyle={textColor}
                         type="password"
                         fullWidth={true}
                         onChange={event =>
@@ -279,7 +266,6 @@ class Index extends Component {
                         hintText="Phone Number"
                         hintStyle={styles.errorStyle}
                         underlineStyle={styles.underlineStyle}
-                        inputStyle={textColor}
                         fullWidth={true}
                         //errorText="This field is required"
                         onChange={event => this.states(event, "phone")}
