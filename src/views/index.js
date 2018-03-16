@@ -59,7 +59,6 @@ class Index extends Component {
       loginError: ""
     };
   }
-
   handleOpen = () => {
     this.setState({ open: true });
   };
@@ -97,7 +96,7 @@ class Index extends Component {
     })
       .then(response => response.json())
       .then(message => {
-        if (message.status === 400) {
+        if (message.code === 200) {
           this.setState({ loginError: message.message });
           browserHistory.push("/home");
         } else this.setState({ loginError: message.message });
@@ -124,6 +123,13 @@ class Index extends Component {
       .then(response => response.json())
       .then(message => {
         console.log("register response ", message);
+        if (message.code === 400) {
+          this.setState({ open: false, registerError: "" });
+          alert(message.username, message.message);
+        } else if (message.code === 401) {
+          // this.setState({ registerError: message.message });
+          alert(message.message);
+        }
       })
       .catch(err => {
         alert("Error sending data to server : " + err.message);

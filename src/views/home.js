@@ -14,13 +14,16 @@ class Home extends Component {
       value: ""
     };
   }
+  logOut = () => {
+    browserHistory.push("/");
+  };
   render() {
     return (
       <div>
         <AppBar
           title="TDome v2.0"
           iconElementRight={
-            <IconButton tooltip="Logout">
+            <IconButton tooltip="Logout" onClick={() => this.logOut()}>
               <NavigationClose />
             </IconButton>
           }

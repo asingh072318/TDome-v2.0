@@ -1,4 +1,6 @@
 const express = require("express");
+var mongoose = require("mongoose");
+var User = require("../src/models/user");
 const path = require("path");
 const webpack = require("webpack");
 const logger = require("../build/lib/logger");
@@ -8,21 +10,9 @@ const compress = require("compression");
 const crypto = require("crypto");
 const app = express();
 const bodyParser = require("body-parser");
+mongoose.connect("mongodb://localhost:27017/playground");
 app.use(compress());
 app.use(bodyParser.json());
-const users = [
-  {
-    _id: 1,
-    username: "g4mewarrior",
-    salt: "5fd2de6a79c03be7",
-    hash:
-      "973329c7ed2fbb6dae3de56891a0d88eb77763319b19fc3a0cf0f98990db169e3fe67a09d9b6511cd699a86b6f7b8dde4bc8016c38bc16550e3d9d42fddab4bc",
-    email: "ankit.bitmsra@gmail.com",
-    phone: 7050514771,
-    rollno: "BE/10026/2014",
-    type: "admin"
-  }
-];
 var genRandomString = function(length) {
   return crypto
     .randomBytes(Math.ceil(length / 2))
@@ -62,62 +52,78 @@ app.post("/api/login", (req, res) => {
   const newUser = req.body;
   var obj = {};
   var exists = false;
-  users.map(user => {
-    if (user.username === newUser.username) {
-      exists = true;
-      if (verifySaltPassword(newUser.password, user.salt) === user.hash) {
-        obj.user = newUser;
-        obj.status = 400;
-        obj.message = "Successful Login";
+  console.log("api called");
+  User.find({ username: newUser.username }, function(err, storeduser) {
+    if (err) {
+      res.json(err);
+    } else if (storeduser.length === 1) {
+      console.log("user found", storeduser);
+      if (
+        verifySaltPassword(newUser.password, storeduser[0].salt) ===
+        storeduser[0].hash
+      ) {
+        console.log("correct password");
+        res.json({
+          user: storeduser[0],
+          message: "Successful Login",
+          code: 200
+        });
       } else {
-        obj.message = "Wrong Username and Password Combination";
-        obj.status = 401;
+        console.log("wrong password");
+        res.json({
+          message: "Wrong Username and Password Combination",
+          code: 201
+        });
       }
+    } else {
+      console.log("wrong user");
+      res.json({
+        message: "Username doesn't exist",
+        code: 202
+      });
     }
   });
-  if (!exists) {
-    obj.status = 404;
-    obj.message = "No User Record Found";
-  }
-  res.json(obj);
 });
 
 app.post("/api/register", (req, res) => {
   const newUser = req.body;
-  const obj = {
-    _id: "",
-    username: "",
-    salt: "",
-    hash: "",
-    email: "",
-    phone: 0,
-    rollno: "",
-    type: "user"
-  };
-  let alreadyRegistered = false;
-  users.map(user => {
-    if (user.rollno === newUser.rollno || user.username === newUser.username)
-      alreadyRegistered = true;
-  });
-  if (alreadyRegistered) {
-    res.json({ username: newUser.username, message: "Already Registered" });
-  } else {
-    var password = newUser.password;
-    var salthash = saltHashPassword(password);
-    obj._id = _id();
-    obj.username = newUser.username;
-    obj.salt = salthash.salt;
-    obj.hash = salthash.hash;
-    obj.email = newUser.email;
-    obj.phone = newUser.phone;
-    obj.rollno = newUser.rollno;
-    users.push(obj);
-    console.log(obj.salt, obj.hash);
-    res.json({
-      username: newUser.username,
-      message: "Successfully Registered"
-    });
-  }
+  User.find(
+    { $or: [{ username: newUser.username }, { rollno: newUser.rollno }] },
+    function(err, user) {
+      if (err) {
+        res.json(err);
+      } else if (user.length === 0) {
+        var password = newUser.password;
+        var salthash = saltHashPassword(password);
+        var nuser = new User({
+          _id: _id(),
+          username: newUser.username,
+          salt: salthash.salt,
+          hash: salthash.hash,
+          email: newUser.email,
+          phone: newUser.phone,
+          rollno: newUser.rollno,
+          admin: false,
+          created_at: new Date()
+        });
+        nuser.save(function(error) {
+          if (err) throw err;
+          console.log(newUser.username, " Registered Successfully");
+        });
+        res.json({
+          username: newUser.username,
+          message: "Successfully Registered",
+          code: 400
+        });
+      } else {
+        res.json({
+          username: newUser.username,
+          message: "User Already exists",
+          code: 401
+        });
+      }
+    }
+  );
 });
 // ------------------------------------
 // Apply Webpack HMR Middleware
