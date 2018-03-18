@@ -118,7 +118,7 @@ app.post("/api/register", (req, res) => {
       } else {
         res.json({
           username: newUser.username,
-          message: "User Already exists",
+          message: " Already exists",
           code: 401
         });
       }

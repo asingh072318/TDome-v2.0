@@ -11,6 +11,7 @@ import Dialog from "material-ui/Dialog";
 import FlatButton from "material-ui/FlatButton";
 import { orange500, blue500 } from "material-ui/styles/colors";
 import { browserHistory } from "react-router";
+import Checkbox from "material-ui/Checkbox";
 
 // Binding the state and actions. These will be available as props to component
 const style = {
@@ -33,12 +34,6 @@ const styles = {
   },
   underlineStyle: {
     borderColor: "#7f8c8d"
-  },
-  floatingLabelStyle: {
-    color: orange500
-  },
-  floatingLabelFocusStyle: {
-    color: blue500
   }
 };
 
@@ -56,8 +51,30 @@ class Index extends Component {
       passwordRegister: "",
       cpasswordRegister: "",
       emailRegister: "",
-      loginError: ""
+      loginError: "",
+      checked: false,
+      showPassword: "Password",
+      registerCode: 0
     };
+    //console.log("constructor called", this.state);
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.registerCode === 400) {
+      alert(nextProps.coach.registerMessage);
+      this.setState({ open: false });
+    } else if (nextProps.registerCode > 400) {
+      alert(nextProps.coach.registerMessage);
+    } else if (
+      nextProps.coach.loginCode === 201 ||
+      nextProps.coach.loginCode === 202
+    ) {
+      this.setState({ loginError: nextProps.coach.loginMessage });
+    } else {
+      if (!nextProps.coach.isAdmin) browserHistory.push("/home");
+      else {
+        browserHistory.push("/admin");
+      }
+    }
   }
   handleOpen = () => {
     this.setState({ open: true });
@@ -89,21 +106,7 @@ class Index extends Component {
     let obj = {};
     obj.username = this.state.usernameSignin;
     obj.password = this.state.passwordSignin;
-    fetch("/api/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(obj)
-    })
-      .then(response => response.json())
-      .then(message => {
-        if (message.code === 200) {
-          this.setState({ loginError: message.message });
-          browserHistory.push("/home");
-        } else this.setState({ loginError: message.message });
-      })
-      .catch(err => {
-        alert("Error sending data to server : " + err.message);
-      });
+    Actions.loginAPI(obj);
   };
   register = () => {
     let obj = {
@@ -114,26 +117,14 @@ class Index extends Component {
       email: this.state.emailRegister,
       phone: this.state.phone
     };
-    console.log(obj);
-    fetch("/api/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(obj)
-    })
-      .then(response => response.json())
-      .then(message => {
-        console.log("register response ", message);
-        if (message.code === 400) {
-          this.setState({ open: false, registerError: "" });
-          alert(message.username, message.message);
-        } else if (message.code === 401) {
-          // this.setState({ registerError: message.message });
-          alert(message.message);
-        }
-      })
-      .catch(err => {
-        alert("Error sending data to server : " + err.message);
-      });
+    Actions.registerAPI(obj);
+  };
+  showPassword = () => {
+    var check = !this.state.checked;
+    if (check) this.setState({ checked: check, showPassword: "text" });
+    else {
+      this.setState({ checked: check, showPassword: "Password" });
+    }
   };
   render() {
     const actions = [
@@ -175,12 +166,17 @@ class Index extends Component {
                   hintText="Password"
                   hintStyle={styles.errorStyle}
                   underlineStyle={styles.underlineStyle}
-                  type="password"
+                  type={this.state.showPassword}
                   onChange={event => this.states(event, "passwordSignin")}
                 />
                 <div style={{ color: "red", fontSize: 14 }}>
                   {this.state.loginError}
                 </div>
+                <Checkbox
+                  label="Show Password"
+                  checked={this.state.checked}
+                  onCheck={() => this.showPassword()}
+                />
                 <div>
                   <RaisedButton
                     label="Login"

@@ -1,8 +1,12 @@
 @import 'base';
 @import '~normalize.css/normalize';
-
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  src: url("../assets/fonts/Montserrat-Regular.ttf") format('ttf');
+}
 // Some best-practice CSS that's useful for most apps
 // Just remove them if they're not what you want
-
-.core-layout{
+.core-layout {
 }
