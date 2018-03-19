@@ -7,8 +7,8 @@ import { render } from "react-dom";
 import AppBar from "material-ui/AppBar";
 import { getCookie, deleteCookie } from "../utils/AppUtils";
 import { browserHistory } from "react-router";
-
-class Home extends Component {
+import "./scss/admin.scss";
+class Admin extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,11 +24,16 @@ class Home extends Component {
     return (
       <div>
         <AppBar
-          title="TDome v2.0"
+          title="TDome v2.0 Admin Panel"
           iconElementRight={
-            <IconButton tooltip="Logout" onClick={() => this.logOut()}>
-              <NavigationClose />
-            </IconButton>
+            <div className="adminAppbar">
+              <div>
+                {"Hello, " + this.props.coach.loggedinUser}
+              </div>
+              <IconButton tooltip="Logout" onClick={() => this.logOut()}>
+                <NavigationClose color="white" />
+              </IconButton>
+            </div>
           }
           style={{ backgroundColor: "#EA2027" }}
         />
@@ -46,4 +51,4 @@ const mapDispatchToProps = dispatch => {
   return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Admin);

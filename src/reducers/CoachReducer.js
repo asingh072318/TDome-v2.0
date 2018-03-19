@@ -1,5 +1,6 @@
 import { State, Effect } from "jumpstate";
 import { Actions } from "jumpstate";
+import { setCookie, getCookie } from "../utils/AppUtils";
 import _ from "lodash";
 const currentState = "TodoStateV1";
 export default State(currentState, {
@@ -26,6 +27,9 @@ export default State(currentState, {
     if (payload.code === 200) {
       state.loggedinUser = payload.user.username;
       state.isAdmin = payload.user.admin;
+      //console.log(access_token);
+      setCookie("username", payload.user.username, 7);
+      setCookie("admin", payload.user.admin, 7);
     }
     return _.cloneDeep(state);
   }
@@ -39,11 +43,6 @@ Effect("loginAPI", (requestObject = {}) => {
     .then(response => response.json())
     .then(message => {
       Actions.TodoStateV1.loginAPIdata(message);
-      // if (message.code === 200) {
-      //   this.setState({ loginError: message.message });
-      //   if (message.user.admin) browserHistory.push("/admin");
-      //   else browserHistory.push("/home");
-      // } else this.setState({ loginError: message.message });
     })
     .catch(err => {
       alert("Error sending data to server : " + err.message);

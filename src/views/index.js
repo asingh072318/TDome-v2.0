@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { getCookie, deleteCookie } from "../utils/AppUtils";
 import { Actions } from "jumpstate";
 import "./scss/index.scss";
 import { render } from "react-dom";
@@ -73,6 +74,16 @@ class Index extends Component {
       }
     }
   }
+  componentWillMount() {
+    if (getCookie("username") !== "") {
+      if (getCookie("admin") === "true") browserHistory.push("/admin");
+      else browserHistory.push("/home");
+    }
+    // deleteCookie("username");
+    // deleteCookie("admin");
+    // deleteCookie("access_token");
+    // console.log("deleted");
+  }
   handleOpen = () => {
     this.setState({ open: true });
   };
@@ -82,21 +93,21 @@ class Index extends Component {
   };
   states = (e, value) => {
     if (value === "usernameSignin") {
-      this.setState({ usernameSignin: e.target.value });
+      this.setState({ usernameSignin: e.target.value.toLowerCase() });
     } else if (value === "passwordSignin") {
-      this.setState({ passwordSignin: e.target.value });
+      this.setState({ passwordSignin: e.target.value.toLowerCase() });
     } else if (value === "rollno") {
-      this.setState({ rollno: e.target.value });
+      this.setState({ rollno: e.target.value.toLowerCase() });
     } else if (value === "phone") {
-      this.setState({ phone: e.target.value });
+      this.setState({ phone: e.target.value.toLowerCase() });
     } else if (value === "usernameRegister") {
-      this.setState({ usernameRegister: e.target.value });
+      this.setState({ usernameRegister: e.target.value.toLowerCase() });
     } else if (value === "passwordRegister") {
-      this.setState({ passwordRegister: e.target.value });
+      this.setState({ passwordRegister: e.target.value.toLowerCase() });
     } else if (value === "cpasswordRegister") {
-      this.setState({ cpasswordRegister: e.target.value });
+      this.setState({ cpasswordRegister: e.target.value.toLowerCase() });
     } else if (value === "emailRegister") {
-      this.setState({ emailRegister: e.target.value });
+      this.setState({ emailRegister: e.target.value.toLowerCase() });
     }
   };
   login = () => {
