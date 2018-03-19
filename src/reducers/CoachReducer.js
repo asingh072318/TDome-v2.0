@@ -5,8 +5,7 @@ const currentState = "TodoStateV1";
 export default State(currentState, {
   // Initial State should be starts with the key 'initial': ...
   initial: {
-    registerCode: 0,
-    loginCode: 0,
+    code: 0,
     loginMessage: "",
     loggedinUser: "",
     registerMessage: "",
@@ -15,14 +14,13 @@ export default State(currentState, {
   registerAPIdata(state, payload) {
     //console.log("Register API data called", payload);
     var registerMessage = payload.username + " " + payload.message;
-    state.registerCode = payload.code;
+    state.code = payload.code;
     state.registerMessage = registerMessage;
     return _.cloneDeep(state);
   },
   loginAPIdata(state, payload) {
-    console.log(payload);
     var loginMessage = payload.message;
-    state.loginCode = payload.code;
+    state.code = payload.code;
     state.loginMessage = loginMessage;
     state.isAdmin = false;
     if (payload.code === 200) {

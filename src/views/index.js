@@ -53,21 +53,18 @@ class Index extends Component {
       emailRegister: "",
       loginError: "",
       checked: false,
-      showPassword: "Password",
-      registerCode: 0
+      showPassword: "Password"
     };
     //console.log("constructor called", this.state);
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.registerCode === 400) {
+    //console.log(this.state, nextProps);
+    if (nextProps.coach.code === 400) {
       alert(nextProps.coach.registerMessage);
       this.setState({ open: false });
-    } else if (nextProps.registerCode > 400) {
+    } else if (nextProps.coach.code > 400) {
       alert(nextProps.coach.registerMessage);
-    } else if (
-      nextProps.coach.loginCode === 201 ||
-      nextProps.coach.loginCode === 202
-    ) {
+    } else if (nextProps.coach.code === 201 || nextProps.coach.code === 202) {
       this.setState({ loginError: nextProps.coach.loginMessage });
     } else {
       if (!nextProps.coach.isAdmin) browserHistory.push("/home");
