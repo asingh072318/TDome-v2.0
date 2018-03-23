@@ -93,19 +93,19 @@ class Index extends Component {
   };
   states = (e, value) => {
     if (value === "usernameSignin") {
-      this.setState({ usernameSignin: e.target.value.toLowerCase() });
+      this.setState({ usernameSignin: e.target.value });
     } else if (value === "passwordSignin") {
-      this.setState({ passwordSignin: e.target.value.toLowerCase() });
+      this.setState({ passwordSignin: e.target.value });
     } else if (value === "rollno") {
       this.setState({ rollno: e.target.value.toLowerCase() });
     } else if (value === "phone") {
-      this.setState({ phone: e.target.value.toLowerCase() });
+      this.setState({ phone: e.target.value });
     } else if (value === "usernameRegister") {
-      this.setState({ usernameRegister: e.target.value.toLowerCase() });
+      this.setState({ usernameRegister: e.target.value });
     } else if (value === "passwordRegister") {
-      this.setState({ passwordRegister: e.target.value.toLowerCase() });
+      this.setState({ passwordRegister: e.target.value });
     } else if (value === "cpasswordRegister") {
-      this.setState({ cpasswordRegister: e.target.value.toLowerCase() });
+      this.setState({ cpasswordRegister: e.target.value });
     } else if (value === "emailRegister") {
       this.setState({ emailRegister: e.target.value.toLowerCase() });
     }

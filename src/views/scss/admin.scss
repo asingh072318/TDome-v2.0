@@ -1,7 +1,31 @@
-.adminAppbar {
+.wholeAdmin {
   display: flex;
   flex-direction: row;
+  height: 100vh;
+  background-color: grey;
+}
+.drawerAdmin {
+  display: flex;
+  flex-direction: column;
+  width: 15%;
+}
+.drawerTopAdmin {
+  display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #ea2027;
   color: white;
+  height: 64px;
+}
+.bodyAdmin {
+  display: flex;
+  flex-direction: column;
+  width: 84.5%;
+  margin-left: 0.5%;
+}
+.appBarRight {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
 }
